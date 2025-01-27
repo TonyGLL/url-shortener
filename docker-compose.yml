@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: postgres_url_shortener
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: url_shortener
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - url_shortener_network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        CONFIG_FILE: ${CONFIG_FILE:-dev.env}
+    image: url_shortener:0.0.2
+    container_name: url_shortener
+    ports:
+      - '3000:3000'
+    environment:
+      - CONFIG_FILE=${CONFIG_FILE:-dev.env}
+      - DB_SOURCE=postgresql://root:secret@postgres_url_shortener:5432/url_shortener?sslmode=disable
+    depends_on:
+      - db
+    networks:
+      - url_shortener_network
+
+networks:
+  url_shortener_network:
+    driver: bridge
+
+volumes:
+  postgres_data:

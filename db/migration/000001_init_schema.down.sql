@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS sites;
+DROP TABLE IF EXISTS searches;
