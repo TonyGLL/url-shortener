@@ -8,7 +8,8 @@ CREATE TABLE url_shortener_schema.sites (
     long_url text NOT NULL,
     salt bigint NOT NULL,
     expiration timestamp NOT NULL,
-    created_at timestamp NOT NULL DEFAULT now()
+    created_at timestamp NOT NULL DEFAULT now(),
+    updated_at timestamp NOT NULL DEFAULT now()
 );
 
 CREATE TABLE url_shortener_schema.searches (

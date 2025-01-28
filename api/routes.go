@@ -36,8 +36,9 @@ func (server *Server) SetupRoutes(version string) http.Handler {
 
 	v1 := r.Group("/api/v1")
 	{
-		v1.POST("/sites", server.generateSite)
-		v1.GET("/sites/:key", server.getSite)
+		v1.POST("/shorten", server.generateSite)
+		v1.GET("/shorten/:key", server.getSite)
+		v1.GET("/shorten/:key/stats", server.getSiteStats)
 	}
 
 	return r

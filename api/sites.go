@@ -2,7 +2,6 @@ package api
 
 import (
 	"database/sql"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -37,7 +36,7 @@ func (s *Server) getSite(ctx *gin.Context) {
 		return
 	}
 
-	site, err := s.store.GetSite(ctx, req.KEY)
+	data, err := s.store.GetSite(ctx, req.KEY)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			ctx.JSON(http.StatusNotFound, errorResponse(err))
@@ -48,12 +47,43 @@ func (s *Server) getSite(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusPermanentRedirect, site)
+	info := db.CountSearchParams{
+		SiteID:    data.ID,
+		IpAddress: ctx.ClientIP(),
+		Browser:   ctx.GetHeader("User-Agent"),
+	}
+	err = s.store.CountSearch(ctx, info)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			ctx.JSON(http.StatusNotFound, errorResponse(err))
+			return
+		}
+
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	response := generateSiteResponse{
+		ID:        data.ID,
+		Url:       data.LongURL,
+		ShortCode: data.Key,
+		CreatedAt: data.CreatedAt,
+		UpdatedAt: data.UpdatedAt,
+	}
+
+	ctx.JSON(http.StatusOK, response)
 }
 
 /* GENERATE SITE */
 type generateSiteRequest struct {
-	SITE string `json:"site" binding:"required"`
+	URL string `json:"url" binding:"required"`
+}
+type generateSiteResponse struct {
+	ID        int       `json:"id"`
+	Url       string    `json:"url"`
+	ShortCode string    `json:"shortCode"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 func (s *Server) generateSite(ctx *gin.Context) {
@@ -69,18 +99,28 @@ func (s *Server) generateSite(ctx *gin.Context) {
 
 	arg := db.GenerateSiteParams{
 		KEY:        key,
-		LONG_URL:   req.SITE,
+		LONG_URL:   req.URL,
 		SALT:       salt,
 		EXPIRATION: time.Now().Add(24 * time.Hour),
 	}
 
-	err := s.store.GenerateSite(ctx, arg)
+	data, err := s.store.GenerateSite(ctx, arg)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
 
-	data := fmt.Sprintf("%s/%s", s.config.URL, key)
+	response := generateSiteResponse{
+		ID:        data.ID,
+		Url:       data.LongURL,
+		ShortCode: key,
+		CreatedAt: data.CreatedAt,
+		UpdatedAt: data.UpdatedAt,
+	}
 
-	ctx.JSON(http.StatusOK, gin.H{"data": data})
+	ctx.JSON(http.StatusCreated, response)
+}
+
+func (s *Server) getSiteStats(ctx *gin.Context) {
+
 }
