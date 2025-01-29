@@ -51,7 +51,21 @@ This will:
 
 - Execute migration scripts to initialize or update the database schema
 
-### 4. Start the Development Server with Hot Reload
+### 4. Make your own local.env in the root
+
+```sh
+DB_DRIVER=postgres
+DB_SOURCE=postgresql://root:secret@localhost:5432/url_shortener?sslmode=disable
+SERVER_ADDRESS=0.0.0.0:8080
+VERSION=0.0.1
+SECRET=secret
+```
+
+This will:
+
+- Let you run the app correctly
+
+### 5. Start the Development Server with Hot Reload
 
 For continuous development with live reload, use:
 

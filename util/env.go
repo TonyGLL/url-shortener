@@ -10,7 +10,6 @@ type Config struct {
 	ServerAddress string `mapstructure:"SERVER_ADDRESS"`
 	Version       string `mapstructure:"VERSION"`
 	Secret        string `mapstructure:"SECRET"`
-	URL           string `mapstructure:"URL"`
 }
 
 func LoadConfig(path string, configName string) (config Config, err error) {
