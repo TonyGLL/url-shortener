@@ -21,7 +21,7 @@ services:
       dockerfile: Dockerfile
       args:
         CONFIG_FILE: ${CONFIG_FILE:-dev.env}
-    image: url_shortener:0.0.2
+    image: url_shortener:0.0.1
     container_name: url_shortener
     ports:
       - '3000:3000'

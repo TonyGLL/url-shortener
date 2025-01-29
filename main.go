@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"os"
 
@@ -25,9 +24,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("cannot load config: %v", err)
 	}
-
-	fmt.Println(config.DBDriver)
-	fmt.Println(config.DBSource)
 
 	conn, err := sql.Open(config.DBDriver, config.DBSource)
 	if err != nil {

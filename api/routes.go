@@ -13,8 +13,8 @@ import (
 func (server *Server) SetupRoutes(version string) http.Handler {
 	r := gin.Default()
 
-	docs.SwaggerInfo.Title = "Swagger ERP Documentation"
-	docs.SwaggerInfo.Description = "This is an ERP Backend with Golang."
+	docs.SwaggerInfo.Title = "Swagger URL Shortener Documentation"
+	docs.SwaggerInfo.Description = "This is an URL Shortener with Golang."
 	docs.SwaggerInfo.Version = version
 	docs.SwaggerInfo.Host = "localhost:8080"
 	docs.SwaggerInfo.BasePath = "/api/v1"
@@ -37,8 +37,10 @@ func (server *Server) SetupRoutes(version string) http.Handler {
 	v1 := r.Group("/api/v1")
 	{
 		v1.POST("/shorten", server.generateSite)
+		v1.PUT("/shorten/:key", server.updateSite)
 		v1.GET("/shorten/:key", server.getSite)
 		v1.GET("/shorten/:key/stats", server.getSiteStats)
+		v1.DELETE("/shorten/:key", server.deleteSite)
 	}
 
 	return r

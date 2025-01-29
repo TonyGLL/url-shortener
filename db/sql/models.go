@@ -16,3 +16,12 @@ type GetSiteQueryResponse struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
+
+type GetSiteStatsResponse struct {
+	ID          int       `json:"id"`
+	Key         string    `json:"key"`
+	LongURL     string    `json:"long_url"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	AccessCount int16     `json:"accessCount"`
+}
