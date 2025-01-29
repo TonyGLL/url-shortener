@@ -1,4 +1,4 @@
-# Setting Up and Running Application
+# Setting Up and Running this URL Shortener Application with Go
 
 https://roadmap.sh/projects/url-shortening-service
 
