@@ -11,6 +11,7 @@ Ensure you have the following tools installed on your system:
 - **Docker** ([Install Docker](https://docs.docker.com/get-docker/))
 - **Docker Compose** ([Install Docker Compose](https://docs.docker.com/compose/install/))
 - **Air** ([Install Air](https://github.com/cosmtrek/air)) - Live reload for Go applications
+- **Migrate** ([golang-migrate](https://github.com/golang-migrate/migrate)) - Database migration tool for Go
 
 ## Steps to Set Up the Application
 
