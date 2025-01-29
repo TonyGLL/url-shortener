@@ -26,7 +26,7 @@ build:
 
 	@echo "Build successfully!!!"
 
-start:
+start: build
 	CONFIG_FILE=local.env air
 
 # Live Reload

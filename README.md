@@ -10,6 +10,7 @@ Ensure you have the following tools installed on your system:
 - **Make** (Available by default on most Linux/macOS systems, installable on Windows via [Chocolatey](https://chocolatey.org/) or [Scoop](https://scoop.sh/))
 - **Docker** ([Install Docker](https://docs.docker.com/get-docker/))
 - **Docker Compose** ([Install Docker Compose](https://docs.docker.com/compose/install/))
+- **Air** ([Install Air](https://github.com/cosmtrek/air)) - Live reload for Go applications
 
 ## Steps to Set Up the Application
 
@@ -71,6 +72,12 @@ For continuous development with live reload, use:
 
 ```sh
 make watch
+```
+
+or
+
+```sh
+CONFIG_FILE=local.env air
 ```
 
 This will:
