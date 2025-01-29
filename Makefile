@@ -4,6 +4,9 @@ initschema:
 postgres:
 	docker compose up -d --build db
 
+stop-postgres:
+	docker stop postgres_url_shortener
+
 createdb:
 	docker exec -it postgres_url_shortener createdb --username=root --owner=root url_shortener
 
